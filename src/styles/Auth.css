@@ -1,0 +1,54 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: rgba(37, 35, 35, 0.937);
+  z-index: 98;
+}
+
+.login-wrapper{
+  display: flex;  
+  flex-direction: column;
+
+  width: 90%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 30px;
+
+  z-index: 99;
+  border-radius: 10px;
+   gap: 20px;
+
+}
+
+.login-wrapper > input {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  background-color: var(--Very_Dark_Grayish_Blue);
+  color: var(--Light_Grayish_Blue);
+  font-size: 12px;
+  padding: 10px 20px;
+
+  position: relative;
+}
+
+
+.login-wrapper > button {
+  text-align: center;
+  padding: 10px 20px;
+  border: 1px solid black;
+  background-color: var(--Very_Dark_Grayish_Blue);
+  color: var(--Light_Grayish_Blue);
+}
+
+.login-wrapper.deactive,
+.background.deactive {
+  display: none;
+}

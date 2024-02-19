@@ -1,38 +1,210 @@
-.App {
-  text-align: center;
-}
+@import './styles/variables.css';
+@import './styles/Auth.css';
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App{
+  width: 100dvw;
+  height: 100dvh;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
+  padding: 30px;
+  background-color: var(--Very_Dark_Blue);
+  background-image: url('../src/Assets/bg-mobile-dark.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-family: var(--font_basc);
+}
+
+
+nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 30px;
+}
+
+
+.header{
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header > h1{
+  font-size: 30px;
+  letter-spacing: 10px;
+  font-weight: 700;
+  color: var(--Very_Light_Gray)
+}
+
+
+.task-input {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--Very_Dark_Grayish_Blue);
+  text-indent: 20px;
+  color: var(--Light_Grayish_Blue);
+  font-size: 12px;
+}
+
+li {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  background-color: var(--Very_Dark_Grayish_Blue);
+  color: var(--Light_Grayish_Blue);
+  font-size: 12px;
+  padding: 10px 30px;
+  text-indent: 10px;
+  border-bottom: 1px solid var(--Dark_Grayish_Blue);
+  position: relative;
+}
+
+
+.task-checker {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* This creates the circle shape */
+  border: 1px solid var(--Dark_Grayish_Blue);
+}
+
+
+
+.task-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  border-radius: 3px;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.delete-button,
+.submit-button {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.delete-button {
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.delete-button > svg path,
+.submit-button > svg path  {
+  fill: var(--Dark_Grayish_Blue) 
+}
+
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  gap: 20px;
+  background-color: var(--Very_Dark_Grayish_Blue);
+  border-radius: 5px;
+  color: var(--Dark_Grayish_Blue);
+  font-weight: 600;
+}
+
+.filter-btn.active{
+  color:#5C7DC9;
+}
+
+
+
+
+/* Hide the browser's default checkbox */
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 25px;
+  width: 25px;
+  transform: translate(-50%, -50%);
+  background-color: var(--Very_Dark_Grayish_Blue);
+  border: 1px solid var(--Dark_Grayish_Blue);
+  border-radius: 50%;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background: linear-gradient(349deg, rgba(63,94,251,1) 0%, rgba(221,183,247,1) 93%);
+
+}
+
+.checked {  text-decoration: line-through;}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+@media screen and (min-width: 600px){
+
+  .App {
+    padding-top: 50px;
+    background-image: url('../src/Assets/bg-desktop-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
   }
-  to {
-    transform: rotate(360deg);
+
+
+  nav,
+  .task-input,
+  .task-list,
+  footer {
+    max-width: 800px;
   }
 }
+  
