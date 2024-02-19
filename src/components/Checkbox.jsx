@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 
-const Checkbox = ({ index, count, title, checked, onChange }) => {
+const Checkbox = ({ index, title, checked, onChange }) => {
 
 
   return (

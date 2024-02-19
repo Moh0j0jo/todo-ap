@@ -13,7 +13,6 @@ const App = () => {
   const [checkedState, setCheckedState] = useState({});
   const [ title, setTitle ] = useState('')
   const todoListRef = collection(db, 'todoList')
-  const [count, setCount ] = useState(0)
 
   const getTodoList = async () => {
     try {
@@ -24,7 +23,7 @@ const App = () => {
       }))
 
       settodoList(filteredData)
-      setCount(filteredData.length)
+
     } catch (err) {
       console.error(err);
     }
@@ -52,7 +51,7 @@ const App = () => {
         done: false
       })
       getTodoList();
-      setTitle()
+      setTitle('')
     } catch (err) { console.error('ezaz' + err) }
   }
 
@@ -81,7 +80,7 @@ const App = () => {
             type="text"
             value = {title}
             placeholder="Create a new todo ..."
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e=> setTitle(e.target.value)}
           />
 
           <button className="submit-button"
@@ -101,7 +100,6 @@ const App = () => {
         >
           <Checkbox
             index={todoItem.id} 
-            count ={count} 
             title={todoItem.title}
             id={todoItem.id}
             checked={!!checkedState[todoItem.id]} // Pass checked state as prop
