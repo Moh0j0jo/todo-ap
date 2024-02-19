@@ -10,6 +10,7 @@ import Checkbox from "./components/Checkbox";
 const App = () => {
 
   const [todoList, settodoList] = useState([])
+  const [checkedState, setCheckedState] = useState({});
   const [ title, setTitle ] = useState('')
   const todoListRef = collection(db, 'todoList')
   const [count, setCount ] = useState(0)
@@ -29,6 +30,14 @@ const App = () => {
     }
 
   }
+
+  const handleCheckboxChange = (itemId) => {
+    setCheckedState((prevState) => ({
+      ...prevState,
+      [itemId]: !prevState[itemId] // Toggle the checked state
+    }));
+  };
+
 
   const deleteTask = async (id) => {
     const movieDoc = doc(db, "todoList", id)
@@ -85,17 +94,26 @@ const App = () => {
       </nav>
 
       <ul className="task-list">
-        {todoList.map((item) => (
-
-          <li key={item.id} className="list-item">
-            <Checkbox index={item.id} count ={count} title={item.title}/>
-             <button
-              className='delete-button'
-              onClick={() => deleteTask(item.id)}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fillRule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z" /></svg>
-            </button>
-          </li>
-        ))}
+      {todoList.map((todoItem) => (
+        <div 
+          key={todoItem.id}
+          className="list-item"
+        >
+          <Checkbox
+            index={todoItem.id} 
+            count ={count} 
+            title={todoItem.title}
+            id={todoItem.id}
+            checked={!!checkedState[todoItem.id]} // Pass checked state as prop
+            onChange={() => handleCheckboxChange(todoItem.id)} // Pass onChange handler
+          />
+          <button
+            className='delete-button'
+            onClick={() => deleteTask(todoItem.id)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fillRule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z" /></svg>
+        </button>
+        </div>
+      ))}
       </ul>
 
 

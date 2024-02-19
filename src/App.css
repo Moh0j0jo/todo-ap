@@ -56,7 +56,7 @@ nav {
   font-size: 12px;
 }
 
-li {
+.list-item {
   width: 100%;
   height: 50px;
   display: flex;
@@ -162,8 +162,6 @@ footer {
 
 }
 
-.checked {  text-decoration: line-through;}
-
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
@@ -189,6 +187,9 @@ footer {
   transform: rotate(45deg);
 }
 
+.item-title.checked {
+  text-decoration: line-through;
+}
 
 @media screen and (min-width: 600px){
 

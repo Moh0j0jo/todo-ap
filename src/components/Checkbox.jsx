@@ -1,59 +1,24 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const Checkbox = ({ index, count, title }) => {
-
-
-  const [checkedState, setCheckedState] = useState(
-    new Array({count}).fill(false)
-  );
-  
-  const [array, setArray] = useState([]);
+const Checkbox = ({ index, count, title, checked, onChange }) => {
 
 
-  const handleOnChange = (position) => {
-
-   const updatedCheckedState = checkedState.map((item, index) => {
-      if (index === position) {
-        console.log(position)
-        return !item;
-      } else {
-        return item;
-      }
-
-    });
-
-    setCheckedState(updatedCheckedState);
-  }
-
-
-
-  const generateArray = (count) => {
-    const newArray = Array.from({ length: count }, (_, index) => {
-      return { id: index, value: `Element ${index}` };
-    });
-    setArray(newArray);
-  };
-
-
-  console.table(checkedState[0])
   return (
     <>
       <label className="container">
-        <input
-          type="checkbox"
-          id={`${index}`}
-          name=''
-          value=''
-          checked={checkedState[index]}
-          onChange={() => handleOnChange(index)}
-        />
+      <input
+        type="checkbox"
+        id={`${index}`}
+        name=""
+        value=""
+        checked={checked}
+        onChange={onChange} // Use onChange prop
+      />
         <span className="checkmark"></span>
       </label>
-      <p>{title}</p>
-
+      <p className={checked ? "item-title checked" : "item-title"}>{title}</p>
     </>
-
   );
-}
+};
 
 export default Checkbox;
