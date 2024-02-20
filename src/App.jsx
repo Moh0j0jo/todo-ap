@@ -1,7 +1,7 @@
 import Auth from "./components/auth";
 import { useState, useEffect } from "react";
 import { db } from './config/firebase-config'
-import { getDocs, collection, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { getDocs, collection, addDoc, deleteDoc, doc, count } from 'firebase/firestore';
 import Footer from './components/Footer'
 import './App.css'
 import Checkbox from "./components/Checkbox";
@@ -112,6 +112,11 @@ const App = () => {
         </button>
         </div>
       ))}
+        <div 
+          className="summary">
+          <p>X items left</p>
+          <button>Clear Completed</button>
+        </div>
       </ul>
 
 

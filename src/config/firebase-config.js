@@ -5,13 +5,16 @@ import { getFirestore } from 'firebase/firestore'
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBd3qu-NGBxA0qnQhVC2bs0rjmdP7sYi1w",
-  authDomain: "udemy-practice-e0102.firebaseapp.com",
-  projectId: "udemy-practice-e0102",
-  storageBucket: "udemy-practice-e0102.appspot.com",
-  messagingSenderId: "145692816151",
-  appId: "1:145692816151:web:304487b55ca2468c21fd52",
-  measurementId: "G-3GSX093M4V"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

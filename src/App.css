@@ -56,7 +56,8 @@ nav {
   font-size: 12px;
 }
 
-.list-item {
+.list-item,
+.summary {
   width: 100%;
   height: 50px;
   display: flex;
@@ -70,6 +71,14 @@ nav {
   text-indent: 10px;
   border-bottom: 1px solid var(--Dark_Grayish_Blue);
   position: relative;
+}
+
+.summary {
+  justify-content: space-between;
+  color: var(--Dark_Grayish_Blue);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 20px;
 }
 
 
