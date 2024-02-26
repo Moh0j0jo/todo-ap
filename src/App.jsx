@@ -1,7 +1,7 @@
 import Auth from "./components/auth";
 import { useState, useEffect } from "react";
 import { db } from './config/firebase-config'
-import { getDocs, collection, addDoc, deleteDoc, doc, count } from 'firebase/firestore';
+import { getDocs, collection, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Footer from './components/Footer'
 import './App.css'
 import Checkbox from "./components/Checkbox";
@@ -13,6 +13,8 @@ const App = () => {
   const [checkedState, setCheckedState] = useState({});
   const [ title, setTitle ] = useState('')
   const todoListRef = collection(db, 'todoList')
+  const [count, setCount] = useState(0); 
+  const [booleanFieldValue, setBooleanFieldValue] = useState(null);
 
   const getTodoList = async () => {
     try {
@@ -23,20 +25,33 @@ const App = () => {
       }))
 
       settodoList(filteredData)
-
+      setCount(data.docs.length)
     } catch (err) {
       console.error(err);
     }
-
   }
 
-  const handleCheckboxChange = (itemId) => {
-    setCheckedState((prevState) => ({
-      ...prevState,
-      [itemId]: !prevState[itemId] // Toggle the checked state
-    }));
-  };
+  const updateBooleanField = async (itemId) => {
+   
+      const itemRef = doc(db,'todoList',  itemId);
+      setBooleanFieldValue(itemRef.done);
+      
+      updateDoc(itemRef,{
+        done: !booleanFieldValue
+      } )
 
+      setBooleanFieldValue(!booleanFieldValue);
+    }
+
+  const handleCheckboxChange = (itemId) => {
+      setCheckedState((prevState) => ({
+        ...prevState,
+        [itemId]: !prevState[itemId] // Toggle the checked state
+      })    
+    );
+    
+    updateBooleanField(itemId);
+  };
 
   const deleteTask = async (id) => {
     const movieDoc = doc(db, "todoList", id)
@@ -102,7 +117,8 @@ const App = () => {
             index={todoItem.id} 
             title={todoItem.title}
             id={todoItem.id}
-            checked={!!checkedState[todoItem.id]} // Pass checked state as prop
+            checked={!!checkedState[todoItem.id]}          
+               // Pass checked state as prop
             onChange={() => handleCheckboxChange(todoItem.id)} // Pass onChange handler
           />
           <button
@@ -114,11 +130,10 @@ const App = () => {
       ))}
         <div 
           className="summary">
-          <p>X items left</p>
+          <p>{`${count}  items left`}</p>
           <button>Clear Completed</button>
         </div>
       </ul>
-
 
       <Footer />
     </div>
