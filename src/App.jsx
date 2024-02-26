@@ -2,6 +2,7 @@ import Auth from "./components/auth";
 import { useState, useEffect } from "react";
 import { db } from './config/firebase-config'
 import { getDocs, collection, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDocs, collection, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Footer from './components/Footer'
 import './App.css'
 import Checkbox from "./components/Checkbox";
@@ -28,6 +29,7 @@ const App = () => {
 
       settodoList(filteredData)
       setCount(data.docs.length)
+      setCount(data.docs.length)
     } catch (err) {
       console.error(err);
     }
@@ -44,8 +46,28 @@ const App = () => {
 
       setBooleanFieldValue(!booleanFieldValue);
     }
+  }
+
+  const updateBooleanField = async (itemId) => {
+   
+      const itemRef = doc(db,'todoList',  itemId);
+      setBooleanFieldValue(itemRef.done);
+      
+      updateDoc(itemRef,{
+        done: !booleanFieldValue
+      } )
+
+      setBooleanFieldValue(!booleanFieldValue);
+    }
 
   const handleCheckboxChange = (itemId) => {
+      setCheckedState((prevState) => ({
+        ...prevState,
+        [itemId]: !prevState[itemId] // Toggle the checked state
+      })    
+    );
+    
+    updateBooleanField(itemId);
       setCheckedState((prevState) => ({
         ...prevState,
         [itemId]: !prevState[itemId] // Toggle the checked state
