@@ -47,13 +47,7 @@ const App = () => {
     }
 
   const handleCheckboxChange = (itemId) => {
-      setCheckedState((prevState) => ({
-        ...prevState,
-        [itemId]: !prevState[itemId] // Toggle the checked state
-      })    
-    );
-    
-    updateBooleanField(itemId);
+ 
       setCheckedState((prevState) => ({
         ...prevState,
         [itemId]: !prevState[itemId] // Toggle the checked state
@@ -64,8 +58,8 @@ const App = () => {
   };
 
   const deleteTask = async (id) => {
-    const movieDoc = doc(db, "todoList", id)
-    await deleteDoc(movieDoc)
+    const listItem = doc(db, "todoList", id)
+    await deleteDoc(listItem)
     getTodoList();
   }
 
