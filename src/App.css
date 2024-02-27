@@ -11,7 +11,7 @@
   --font-header-color:#FAFAFA;
   --font-active-color: #4670C9;
   --font-footer-color: #99989E;
-
+  --border-color:#666668;
   --background-image: url('../src/Assets/bg-mobile-dark.jpg');
   --background-desktop-image: url('../src/Assets/bg-desktop-dark.jpg')
 }
@@ -24,7 +24,7 @@
   --font-header-color:#FAFAFA;
   --font-active-color: #4670C9;
   --font-footer-color: #99989E;
-
+  --border-color:#b4b4b8;
   --background-image: url('../src/Assets/bg-mobile-light.jpg');
   --background-desktop-image: url('../src/Assets/bg-desktop-light.jpg')
 }
@@ -45,6 +45,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   font-family: var(--font_basc);
+  transition: all 0.3 ease;
 }
 
 
@@ -98,7 +99,7 @@ nav {
   font-size: 12px;
   padding: 10px 30px;
   text-indent: 10px;
-  border-bottom: 1px solid var(--Dark_Grayish_Blue);
+  border-bottom: 1px solid var(--border-color);
   position: relative;
 }
 
@@ -130,6 +131,10 @@ nav {
   border-radius: 3px;
 }
 
+button,
+.icon {
+  cursor: pointer;
+}
 
 
 .delete-button,
