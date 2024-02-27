@@ -1,6 +1,10 @@
 
 const Checkbox = ({ index, title, checked, onChange }) => {
-
+  
+  const handleChange = (event) => {
+    const newCheckedState = event.target.checked;
+    onChange(newCheckedState);
+  };
 
   return (
     <>
@@ -11,7 +15,7 @@ const Checkbox = ({ index, title, checked, onChange }) => {
         name=""
         value=""
         checked={checked}
-        onChange={onChange} // Use onChange prop
+        onChange={handleChange} // Use onChange prop
       />
         <span className="checkmark"></span>
       </label>

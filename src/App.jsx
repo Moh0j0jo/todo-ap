@@ -6,93 +6,65 @@ import Footer from './components/Footer'
 import './App.css'
 import Checkbox from "./components/Checkbox";
 
-
 const App = () => {
 
-  const [todoList, settodoList] = useState([])
-  const [checkedState, setCheckedState] = useState({});
+  const [todoList, setTodoList] = useState([]);
+  const [isDark, setIsDark] = useState(true);
   const [ title, setTitle ] = useState('')
-  const todoListRef = collection(db, 'todoList')
-  const [count, setCount] = useState(0); 
-  const [booleanFieldValue, setBooleanFieldValue] = useState(null);
-  const [ isDark, setIsDark ] = useState(true)
+  const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'todoList'));
+      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setTodoList(data);
+    };
 
-  const getTodoList = async () => {
+    fetchData();
+  }, []);
+
+  const handleCheckboxChange = async (itemId, newCheckedState) => {
     try {
-      const data = await getDocs(todoListRef)
-     
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(), id: doc.id,
-      }))
-
-      settodoList(filteredData)
-      setCount(data.docs.length)
-    } catch (err) {
-      console.error(err);
+      const itemRef = doc(db, 'todoList', itemId);
+      await updateDoc(itemRef, { done: newCheckedState });
+      setTodoList(prevTodoList => prevTodoList.map(todoItem =>
+        todoItem.id === itemId ? { ...todoItem, done: newCheckedState } : todoItem
+      ));
+    } catch (error) {
+      console.error('Error updating checkbox:', error);
     }
-  }
-
-
-  const updateBooleanField = async (itemId) => {
-   
-      const itemRef = doc(db,'todoList',  itemId);
-      setBooleanFieldValue(itemRef.done);
-      
-      updateDoc(itemRef,{
-        done: !booleanFieldValue
-      } )
-
-      setBooleanFieldValue(!booleanFieldValue);
-    }
-
-  const handleCheckboxChange = (itemId) => {
- 
-      setCheckedState((prevState) => ({
-        ...prevState,
-        [itemId]: !prevState[itemId] // Toggle the checked state
-      })    
-    );
-    
-    updateBooleanField(itemId);
   };
 
   const deleteTask = async (id) => {
-    const listItem = doc(db, "todoList", id)
-    await deleteDoc(listItem)
-    getTodoList();
-  }
-
-  const onSubmitTask = async () => {
     try {
-      await addDoc(todoListRef, {
-        title: title,
-        done: false
-      })
-      getTodoList();
-      setTitle('')
-    } catch (err) { console.error('ezaz' + err) }
-  }
+      await deleteDoc(doc(db, "todoList", id));
+      setTodoList(prevTodoList => prevTodoList.filter(todoItem => todoItem.id !== id));
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
 
-  const ToggleTheme = () =>{
-    setIsDark(!isDark)
-  }
+  const onSubmitTask = async (title) => {
+    try {
+      await addDoc(collection(db, 'todoList'), { title, done: false });
+      setTodoList(prevTodoList => [...prevTodoList, { title, done: false }]);
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
+  };
 
-  useEffect(() => {
-    getTodoList();
-  }, [])
-
-
+  const toggleTheme = () => {
+    setIsDark(prevIsDark => !prevIsDark);
+  };
 
   return (
-
-    <div className="App" data-theme={ isDark ? "dark" : "light"}>
+    <div className="App" data-theme={isDark ? "dark" : "light"}>
       <Auth />
       <nav>
         <div className="header">
           <h1>TODO</h1>
           <div className="icon"
-            onClick={ToggleTheme}>
+            onClick={toggleTheme}>
             {isDark ? 
               <svg xmlns="http://www.w3.org/2000/svg" 
                 width="26" height="26"><path fill="#FFF" fillRule="evenodd" d="M13 21a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-5.657-2.343a1 1 0 010 1.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.12-2.121a1 1 0 011.415 0zm12.728 0l2.121 2.121a1 1 0 01-1.414 1.414l-2.121-2.12a1 1 0 011.414-1.415zM13 8a5 5 0 110 10 5 5 0 010-10zm12 4a1 1 0 110 2h-3a1 1 0 110-2h3zM4 12a1 1 0 110 2H1a1 1 0 110-2h3zm18.192-8.192a1 1 0 010 1.414l-2.12 2.121a1 1 0 01-1.415-1.414l2.121-2.121a1 1 0 011.414 0zm-16.97 0l2.121 2.12A1 1 0 015.93 7.344L3.808 5.222a1 1 0 011.414-1.414zM13 0a1 1 0 011 1v3a1 1 0 11-2 0V1a1 1 0 011-1z" />
@@ -134,12 +106,10 @@ const App = () => {
           className="list-item"
         >
           <Checkbox
-            index={todoItem.id} 
-            title={todoItem.title}
-            id={todoItem.id}
-            checked={!!checkedState[todoItem.id]}          
-               // Pass checked state as prop
-            onChange={() => handleCheckboxChange(todoItem.id)} // Pass onChange handler
+                      id={todoItem.id}
+                      title={todoItem.title}
+                      checked={todoItem.done}
+                      onChange={(newCheckedState) => handleCheckboxChange(todoItem.id, newCheckedState)}
           />
           <button
             className='delete-button'
@@ -157,7 +127,7 @@ const App = () => {
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
 export default App;
